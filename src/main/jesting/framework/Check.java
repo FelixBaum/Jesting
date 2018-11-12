@@ -53,6 +53,7 @@ public class Check {
      * Checks a condition to be false.
      * 
      * @param condition condition to check
+     * @param message message if it fails
      */
     public static void checkFalse(boolean condition, String message) {
         checkTrue(!condition, message);
