@@ -4,10 +4,14 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+import main.jesting.framework.result.TestContextResult;
+import main.jesting.framework.result.TestContextResultType;
+
 public class TestContext {
 
     private Class<?> typeOfTestclass;
     private Method methodToTest;
+    private Class<?> expected;
 
     /**
      * Initializes a new testcontext instance.
@@ -73,6 +77,22 @@ public class TestContext {
         return this.methodToTest;
     }
 
+    /**
+     * Sets the expected object for the test.
+     * 
+     * @param expected the type which is expected by the test.
+     */
+    public void setExpected(Class<?> expected) {
+        this.expected = expected;
+    }
+
+    /**
+     * Gets the expected object for the test.
+     */
+    public Class<?> getExpected() {
+        return this.expected;
+    }
+
 
 
     /// public methods 
@@ -93,18 +113,44 @@ public class TestContext {
     /**
      * Executes the test.
      */
-    public void run() {
+    public TestContextResult run() {
+        TestContextResult result = new TestContextResult(getNameOfTest());
+        double startTime = 0.0;
+        double stopTime = 0.0;
+
         try {
             Constructor<?> ctor = typeOfTestclass.getConstructor();
             Object instanceOfClass = ctor.newInstance();
 
+            startTime = System.nanoTime() / 1E6;
             methodToTest.invoke(instanceOfClass);
+            stopTime = System.nanoTime() / 1E6;
+           
+            result.setRunningTime(stopTime - startTime);
+            result.setResultType(TestContextResultType.SUCCESSFULL);
         } catch (InvocationTargetException itex) {
+            stopTime = System.nanoTime() / 1E6;
+            result.setRunningTime(stopTime - startTime);
+
             if (itex.getCause() != null && itex.getCause() instanceof AssertionError) {
-                System.err.println(itex.getCause().getMessage());
+                result.setResultType(TestContextResultType.ERROR);
+                result.setCheckMessage(itex.getCause().getMessage());
+            } else if (itex.getCause() != null) {
+                if (getExpected() != null && itex.getCause().getClass().equals(expected)) {
+                    result.setResultType(TestContextResultType.SUCCESSFULL);
+                } else {
+                    result.setResultType(TestContextResultType.FAILURE);
+                    result.setFailureCause(itex.getCause());
+                    itex.printStackTrace();
+                }
             }
         } catch (Exception ex) {
+            result.setResultType(TestContextResultType.FAILURE);
+            result.setFailureCause(ex);
+            ex.printStackTrace();
         }
+
+        return result;
     }
 
 }

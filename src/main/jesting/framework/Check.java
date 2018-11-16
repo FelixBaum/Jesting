@@ -62,10 +62,56 @@ public class Check {
     /**
      * Checks a condition to be false.
      * 
-     * @param condition condition to check
+     * @param condition condition to check.
      */
     public static void checkFalse(boolean condition) {
         checkFalse(condition, null);
+    }
+
+    /**
+     * Checks two objects to be equal.
+     * 
+     * @param o1 first object to compare.
+     * @param o2 second object to compare.
+     * @param message message if it fails.
+     */
+    public static void checkEquals(Object o1, Object o2, String message) {
+        if (!o1.equals(o2)) {
+            fail(message);
+        }
+    }
+
+    /**
+     * Checks two objects to be equal.
+     * 
+     * @param o1 first object to compare.
+     * @param o2 second object to compare.
+     */
+    public static void checkEquals(Object o1, Object o2) {
+        checkEquals(o1, o2, null);
+    }
+
+    /**
+     * Checks two objects to be not equal.
+     * 
+     * @param o1 first object to compare.
+     * @param o2 second object to compare.
+     * @param message message if it fails.
+     */
+    public static void checkNotEquals(Object o1, Object o2, String message) {
+        if (o1.equals(o2)) {
+            fail(message);
+        }
+    }
+
+    /**
+     * Checks two objects to be not equal.
+     * 
+     * @param o1 first object to compare.
+     * @param o2 second object to compare.
+     */
+    public static void checkNotEquals(Object o1, Object o2) {
+        checkEquals(o1, o2, null);
     }
 
 }
