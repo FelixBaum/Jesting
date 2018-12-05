@@ -8,12 +8,14 @@ import java.util.List;
 
 import main.jesting.framework.result.TestContextResult;
 import main.jesting.framework.result.TestContextResultType;
+import main.jesting.framework.result.TestResult;
 
 /**
  * 
  */
 public class TestRunner {
 
+    private ArrayList<TestProgressListener> listeners;
     private ArrayList<TestContext> tests;
     private ArrayList<TestContextResult> successfullTests;
     private ArrayList<TestContextResult> failureTests;
@@ -25,6 +27,7 @@ public class TestRunner {
      * @see main.jesting.framework.TestRunner
      */
     public TestRunner() {
+        this.listeners = new ArrayList<TestProgressListener>();
         this.tests = new ArrayList<TestContext>();
         resetResults();
     }
@@ -61,6 +64,15 @@ public class TestRunner {
     }
 
     /**
+     * Adds a listener to the runner, which will be notified on result changes.
+     * 
+     * @param listener the listener to add
+     */
+    public void addListener(TestProgressListener listener) {
+        this.listeners.add(listener);
+    }
+
+    /**
      * Runs all the tests.
      */
     public void run() {
@@ -74,6 +86,9 @@ public class TestRunner {
         /// Parallel
         tests.parallelStream().forEach((test) -> {
             TestContextResult result = test.run();
+
+            notifyListenersProgress(result);
+
             results.add(result);
         });
         ///
@@ -90,9 +105,9 @@ public class TestRunner {
                     errorTests.add(result);
                     break;
             }
-
-            System.out.println(result.getNameOfTest() + ": " + result.getResultType() + " took: " + result.getRunningTime() + " ms");
         }
+
+        notifyListenersResult();
     }
 
 
@@ -119,6 +134,24 @@ public class TestRunner {
         }
 
         return methods;
+    }
+
+    /**
+     * Notifies all added listener for test progress.
+     */
+    private void notifyListenersProgress(TestContextResult result) {
+        TestResult testresult = new TestResult(result);
+
+        for (TestProgressListener listener : listeners) {
+            listener.notifyProgress(testresult);
+        }
+    }
+
+    /**
+     * Notifies all added listeners for test result.
+     */
+    private void notifyListenersResult() {
+        // TODO: Implement function
     }
 
     /**

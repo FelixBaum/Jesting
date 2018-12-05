@@ -141,13 +141,11 @@ public class TestContext {
                 } else {
                     result.setResultType(TestContextResultType.FAILURE);
                     result.setFailureCause(itex.getCause());
-                    itex.printStackTrace();
                 }
             }
         } catch (Exception ex) {
             result.setResultType(TestContextResultType.FAILURE);
             result.setFailureCause(ex);
-            ex.printStackTrace();
         }
 
         return result;
