@@ -1,11 +1,11 @@
-package main.jesting.framework;
+package jesting.framework;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-import main.jesting.framework.result.TestContextResult;
-import main.jesting.framework.result.TestContextResultType;
+import jesting.framework.result.TestContextResult;
+import jesting.framework.result.TestContextResultType;
 
 public class TestContext {
 

@@ -1,4 +1,4 @@
-package main.jesting.framework.result;
+package jesting.framework.result;
 
 public enum TestContextResultType {
 

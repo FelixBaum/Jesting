@@ -1,4 +1,4 @@
-package main.jesting.framework;
+package jesting.framework;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
@@ -6,9 +6,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import main.jesting.framework.result.TestContextResult;
-import main.jesting.framework.result.TestContextResultType;
-import main.jesting.framework.result.TestResult;
+import jesting.framework.result.TestContextResult;
+import jesting.framework.result.TestContextResultType;
+import jesting.framework.result.TestResult;
 
 /**
  * 

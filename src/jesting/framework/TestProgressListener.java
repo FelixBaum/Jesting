@@ -1,6 +1,6 @@
-package main.jesting.framework;
+package jesting.framework;
 
-import main.jesting.framework.result.*;
+import jesting.framework.result.*;
 
 /**
  * An interface which will be notified, if a test has finished or a test-run is done.

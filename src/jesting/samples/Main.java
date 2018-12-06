@@ -1,11 +1,11 @@
-package examples;
+package jesting.samples;
 
-import static main.jesting.framework.Check.*;
+import static jesting.framework.Check.*;
 
-import main.jesting.framework.Test;
-import main.jesting.framework.TestProgressListener;
-import main.jesting.framework.TestRunner;
-import main.jesting.framework.result.TestResult;
+import jesting.framework.Test;
+import jesting.framework.TestProgressListener;
+import jesting.framework.TestRunner;
+import jesting.framework.result.TestResult;
 
 public class Main implements TestProgressListener {
 
