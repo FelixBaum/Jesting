@@ -84,9 +84,12 @@ public class TestResult {
                 break;
             case ERROR:
                 if (getCheckMessage() != null && !getCheckMessage().equals(""))
-                    description = getNameOfTest() + ": " + getResultType() + " - " + getCheckMessage() + " - duration: " + getDuration() + " ms";
-                else
-                    description = getNameOfTest() + ": " + getResultType() + " - " + getFailureCause().getMessage() + " - duration: " + getDuration() + " ms";
+                    description = getNameOfTest() + ": " + getResultType() + " - Message: \"" + getCheckMessage() + "\" - duration: " + getDuration() + " ms";
+                else 
+                    if (getFailureCause() != null)
+                        description = getNameOfTest() + ": " + getResultType() + " - Message: \"" + getFailureCause().getMessage() + "\" - duration: " + getDuration() + " ms";
+                    else
+                        description = getNameOfTest() + ": " + getResultType() + " - duration: " + getDuration() + " ms";
                 break;
         }
 

@@ -6,6 +6,7 @@ import jesting.framework.Test;
 import jesting.framework.listener.TestProgressListener;
 import jesting.framework.runner.TestRunner;
 import jesting.framework.result.TestResult;
+import jesting.framework.result.TestRunResult;
 
 public class Main implements TestProgressListener {
 
@@ -14,7 +15,7 @@ public class Main implements TestProgressListener {
         
         TestRunner runner = new TestRunner();
         runner.addTest(Main.class);
-        runner.addListener(main);
+        runner.addProgressListener(main);
         runner.run();
     }
 
@@ -22,8 +23,7 @@ public class Main implements TestProgressListener {
         result.printResultMessage(System.out);
     }
 
-    public void notifyResult() {
-
+    public void notifyResult(TestRunResult result) {
     }
 
     @Test

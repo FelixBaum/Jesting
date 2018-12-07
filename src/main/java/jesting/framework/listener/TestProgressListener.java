@@ -15,6 +15,6 @@ public interface TestProgressListener {
     /**
      * Is called, when a test-run has finished.
      */
-    void notifyResult();
+    void notifyResult(TestRunResult result);
 
 }
