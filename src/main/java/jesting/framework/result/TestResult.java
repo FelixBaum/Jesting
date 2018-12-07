@@ -4,6 +4,7 @@ import java.io.*;
 
 public class TestResult {
 
+    private String nameOfTestClass;
     private String nameOfTest;
     private TestContextResultType resultType;
     private String checkMessage;
@@ -19,6 +20,7 @@ public class TestResult {
         if (contextresult == null)
             return;
 
+        this.nameOfTestClass = contextresult.getNameOfTestClass();
         this.nameOfTest = contextresult.getNameOfTest();
         this.resultType = contextresult.getResultType();
         this.checkMessage = contextresult.getCheckMessage();
@@ -27,6 +29,13 @@ public class TestResult {
     }
 
     /// getters
+
+    /**
+     * Gets the name of the testclass.
+     */
+    public String getNameOfTestClass() {
+        return this.nameOfTestClass;
+    }
 
     /**
      * Gets the name of the test.
@@ -77,19 +86,19 @@ public class TestResult {
 
         switch (getResultType()) {
             case SUCCESSFULL:
-                description = getNameOfTest() + ": " + getResultType() + " - duration: " + getDuration() + " ms";
+                description = getNameOfTestClass() + "." + getNameOfTest() + ": " + getResultType() + " - duration: " + getDuration() + " ms";
                 break;
             case FAILURE:
-                description = getNameOfTest() + ": " + getResultType() + " - " + getFailureCause().getMessage() + " - duration: " + getDuration() + " ms";
+                description = getNameOfTestClass() + "." + getNameOfTest() + ": " + getResultType() + " - " + getFailureCause().getMessage() + " - duration: " + getDuration() + " ms";
                 break;
             case ERROR:
                 if (getCheckMessage() != null && !getCheckMessage().equals(""))
-                    description = getNameOfTest() + ": " + getResultType() + " - Message: \"" + getCheckMessage() + "\" - duration: " + getDuration() + " ms";
+                    description = getNameOfTestClass() + "." + getNameOfTest() + ": " + getResultType() + " - Message: \"" + getCheckMessage() + "\" - duration: " + getDuration() + " ms";
                 else 
                     if (getFailureCause() != null)
-                        description = getNameOfTest() + ": " + getResultType() + " - Message: \"" + getFailureCause().getMessage() + "\" - duration: " + getDuration() + " ms";
+                        description = getNameOfTestClass() + "." + getNameOfTest() + ": " + getResultType() + " - Message: \"" + getFailureCause().getMessage() + "\" - duration: " + getDuration() + " ms";
                     else
-                        description = getNameOfTest() + ": " + getResultType() + " - duration: " + getDuration() + " ms";
+                        description = getNameOfTestClass() + "." + getNameOfTest() + ": " + getResultType() + " - duration: " + getDuration() + " ms";
                 break;
         }
 

@@ -2,6 +2,7 @@ package jesting.framework.result;
 
 public class TestContextResult {
 
+    private String nameOfTestClass;
     private String nameOfTest;
     private TestContextResultType resultType;
     private String checkMessage;
@@ -20,10 +21,33 @@ public class TestContextResult {
     /**
      * Initializes a new instance of a TestContextResult.
      * 
+     * @param nameOfTestClass the name of the testclass.
+     * @param testname the name of the test.
+     */
+    public TestContextResult(String nameOfTestClass, String testname) {
+        this(nameOfTestClass, testname, TestContextResultType.SUCCESSFULL);
+    }
+
+    /**
+     * Initializes a new instance of a TestContextResult.
+     * 
      * @param testname the name of the test.
      * @param resulttype the type of the result.
      */
     public TestContextResult(String testname, TestContextResultType resulttype) {
+        this("", testname, resulttype);
+    }
+
+
+    /**
+     * Initializes a new instance of a TestContextResult.
+     * 
+     * @param nameOfTestClass the name of the testclass.
+     * @param testname the name of the test.
+     * @param resulttype the type of the result.
+     */
+    public TestContextResult(String nameOfTestClass, String testname, TestContextResultType resulttype) {
+        this.nameOfTestClass = nameOfTestClass;
         this.nameOfTest = testname;
         this.resultType = resulttype;
     }
@@ -32,6 +56,22 @@ public class TestContextResult {
 
     /// getters and setters
 
+
+    /**
+     * Sets the name of the testclass.
+     * 
+     * @param testclassname the name of the testclass.
+     */
+    public void setNameOfTestClass(String testclassname) {
+        this.nameOfTestClass = testclassname;
+    }
+
+    /**
+     * Gets the name of the testclass.
+     */
+    public String getNameOfTestClass() {
+        return this.nameOfTestClass;
+    }
 
     /**
      * Sets the name of the test.

@@ -114,7 +114,7 @@ public class TestContext {
      * Executes the test.
      */
     public TestContextResult run() {
-        TestContextResult result = new TestContextResult(getNameOfTest());
+        TestContextResult result = new TestContextResult(typeOfTestclass.getSimpleName(), getNameOfTest());
         double startTime = 0.0;
         double stopTime = 0.0;
 
