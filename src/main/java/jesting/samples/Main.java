@@ -3,15 +3,15 @@ package jesting.samples;
 import static jesting.framework.Check.*;
 
 import jesting.framework.Test;
-import jesting.framework.TestProgressListener;
-import jesting.framework.TestRunner;
+import jesting.framework.listener.TestProgressListener;
+import jesting.framework.runner.TestRunner;
 import jesting.framework.result.TestResult;
 
 public class Main implements TestProgressListener {
 
     public static void main(String[] args) {
         Main main = new Main();
-
+        
         TestRunner runner = new TestRunner();
         runner.addTest(Main.class);
         runner.addListener(main);
