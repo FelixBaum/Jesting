@@ -1,4 +1,6 @@
-# Jesting
+# Jesting   
+
+[![Build Status](https://travis-ci.org/FelixBaum/Jesting.svg?branch=master)](https://travis-ci.org/FelixBaum/Jesting)
 
 A Java Testing Framework for running lightweight Java unit tests.
 
