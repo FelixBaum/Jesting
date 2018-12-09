@@ -10,6 +10,8 @@ public class TestResult {
     private String checkMessage;
     private Throwable failureCause;
     private double duration;
+    private int timeout;
+    private boolean istimedout;
 
     /**
      * Initializes a new instance of a TestResult.
@@ -26,6 +28,8 @@ public class TestResult {
         this.checkMessage = contextresult.getCheckMessage();
         this.failureCause = contextresult.getFailureCause();
         this.duration = contextresult.getRunningTime();
+        this.timeout = contextresult.getTimeout();
+        this.istimedout = contextresult.isTimedOut();
     }
 
     /// getters
@@ -72,6 +76,20 @@ public class TestResult {
         return this.duration;
     }
 
+    /**
+     * Gets the timeout value in ms.
+     */
+    public int getTimeout() {
+        return this.timeout;
+    }
+
+    /**
+     * Gets the signal, if the test is timed out.
+     */
+    public boolean isTimedOut() {
+        return this.istimedout;
+    }
+
     ///
 
     /// public methods
@@ -92,13 +110,17 @@ public class TestResult {
                 description = getNameOfTestClass() + "." + getNameOfTest() + ": " + getResultType() + " - " + getFailureCause().getMessage() + " - duration: " + getDuration() + " ms";
                 break;
             case ERROR:
-                if (getCheckMessage() != null && !getCheckMessage().equals(""))
-                    description = getNameOfTestClass() + "." + getNameOfTest() + ": " + getResultType() + " - Message: \"" + getCheckMessage() + "\" - duration: " + getDuration() + " ms";
-                else 
-                    if (getFailureCause() != null)
-                        description = getNameOfTestClass() + "." + getNameOfTest() + ": " + getResultType() + " - Message: \"" + getFailureCause().getMessage() + "\" - duration: " + getDuration() + " ms";
-                    else
-                        description = getNameOfTestClass() + "." + getNameOfTest() + ": " + getResultType() + " - duration: " + getDuration() + " ms";
+                if (isTimedOut()) {
+                    description = getNameOfTestClass() + "." + getNameOfTest() + ": " + getResultType() + " - Test exceeded the duration of " + getTimeout() + " ms timeout";
+                } else {
+                    if (getCheckMessage() != null && !getCheckMessage().equals(""))
+                        description = getNameOfTestClass() + "." + getNameOfTest() + ": " + getResultType() + " - Message: \"" + getCheckMessage() + "\" - duration: " + getDuration() + " ms";
+                    else 
+                        if (getFailureCause() != null)
+                            description = getNameOfTestClass() + "." + getNameOfTest() + ": " + getResultType() + " - Message: \"" + getFailureCause().getMessage() + "\" - duration: " + getDuration() + " ms";
+                        else
+                            description = getNameOfTestClass() + "." + getNameOfTest() + ": " + getResultType() + " - duration: " + getDuration() + " ms";
+                }
                 break;
         }
 

@@ -5,10 +5,17 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import jesting.framework.Test;
 import jesting.framework.TestContext;
 import jesting.framework.result.TestContextResult;
+import jesting.framework.result.TestContextResultType;
 import jesting.framework.result.TestResult;
 import jesting.framework.result.TestRunResult;
 import jesting.framework.listener.TestProgressListener;
@@ -57,6 +64,8 @@ public class TestRunner {
             if (annotation.expected() != null) {
                 testContext.setExpected(annotation.expected());
             }
+            
+            testContext.setTimeout(annotation.timeout());
 
             this.tests.add(testContext);
         }
@@ -83,17 +92,46 @@ public class TestRunner {
         List<TestResult> failedTests = new ArrayList<TestResult>();
         List<TestResult> errorTests = new ArrayList<TestResult>();
 
+        ExecutorService executor = Executors.newFixedThreadPool(tests.size());
+        List<TestFuture> futures = new ArrayList<TestFuture>();
+        for (int i = 0; i < tests.size(); i++) {
+            TestContext test = tests.get(i);
+            Future<TestContextResult> future = executor.submit(new TestCallable(test));
+            futures.add(new TestFuture(test, future));
+        } 
 
         /// Parallel
-        tests.parallelStream().forEach((test) -> {
-            TestContextResult result = test.run();
+        futures.parallelStream().forEach((future) -> {
+            TestContextResult result = null;
 
-            notifyListenersProgress(result);
+            try {
+                result = future.getFuture().get(future.getTest().getTimeout(), TimeUnit.MILLISECONDS);
+            } catch (TimeoutException ex) {
+                future.getFuture().cancel(true);
 
-            results.add(result);
+                result = new TestContextResult(future.getTest().getType().getSimpleName(), future.getTest().getNameOfTest(), TestContextResultType.ERROR);
+                result.setTimeout(future.getTest().getTimeout());
+                result.setIsTimedOut(true);
+            } catch (ExecutionException ex) {
+                future.getFuture().cancel(true);
+
+                result = new TestContextResult(future.getTest().getType().getSimpleName(), future.getTest().getNameOfTest(), TestContextResultType.FAILURE);
+                result.setFailureCause(ex);
+            } catch (InterruptedException ex) {
+                future.getFuture().cancel(true);
+
+                result = new TestContextResult(future.getTest().getType().getSimpleName(), future.getTest().getNameOfTest(), TestContextResultType.FAILURE);
+                result.setFailureCause(ex);
+            }
+
+            if (result != null) {
+                notifyListenersProgress(result);
+                results.add(result);
+            }
         });
         ///
 
+        executor.shutdownNow();
 
         for (TestContextResult result : results) {
             switch(result.getResultType()) {

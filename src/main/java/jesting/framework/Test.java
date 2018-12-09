@@ -10,5 +10,6 @@ import java.lang.annotation.Target;
 public @interface Test {
 
     Class<?> expected() default Class.class;
+    int timeout() default 5000;
 
 }

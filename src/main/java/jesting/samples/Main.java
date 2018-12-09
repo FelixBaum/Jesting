@@ -27,7 +27,7 @@ public class Main implements TestProgressListener {
     }
 
     @Test
-    public void sampleTest() {
+    public void sampleTest() throws Exception {
         checkEquals(1, 2, "1 is not equal to 2");
     }
 

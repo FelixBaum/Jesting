@@ -12,6 +12,7 @@ public class TestContext {
     private Class<?> typeOfTestclass;
     private Method methodToTest;
     private Class<?> expected;
+    private int timeout;
 
     /**
      * Initializes a new testcontext instance.
@@ -93,6 +94,21 @@ public class TestContext {
         return this.expected;
     }
 
+    /**
+     * Sets the timeout value in ms.
+     * 
+     * @param timeout the value in ms.
+     */
+    public void setTimeout(int timeout) {
+        this.timeout = timeout;
+    }
+
+    /**
+     * Gets the timeout value in ms.
+     */
+    public int getTimeout() {
+        return this.timeout;
+    }
 
 
     /// public methods 

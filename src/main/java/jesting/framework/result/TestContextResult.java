@@ -8,6 +8,8 @@ public class TestContextResult {
     private String checkMessage;
     private Throwable failureCause;
     private double runningTime;
+    private int timeout;
+    private boolean istimedout;
 
     /**
      * Initializes a new instance of a TestContextResult.
@@ -152,5 +154,38 @@ public class TestContextResult {
     public double getRunningTime() {
         return this.runningTime;
     }
+
+    /**
+     * Sets the timeout value in ms.
+     * @param timeout the timout in ms.
+     */
+    public void setTimeout(int timeout) {
+        this.timeout = timeout;
+    }
+
+    /**
+     * Gets the timeout value.
+     */
+    public int getTimeout() {
+        return this.timeout;
+    }
+
+    /**
+     * Sets the flag, which signals that the test is timed out.
+     * 
+     * @param timedout the flag, if the test is timed out.
+     */
+    public void setIsTimedOut(boolean timedout) {
+        this.istimedout = timedout;
+    }
+
+    /**
+     * Signals, if the test is timed out.
+     */
+    public boolean isTimedOut() {
+        return this.istimedout;
+    }
+
+    ///
 
 }
