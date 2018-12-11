@@ -2,7 +2,7 @@ package jesting.framework.runner;
 
 import java.util.concurrent.Future;
 
-import jesting.framework.TestContext;
+import jesting.framework.context.TestContext;
 import jesting.framework.result.TestContextResult;
 
 public class TestFuture {

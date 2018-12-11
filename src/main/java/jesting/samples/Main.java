@@ -1,8 +1,8 @@
 package jesting.samples;
 
-import static jesting.framework.Check.*;
+import static jesting.framework.checks.Check.*;
 
-import jesting.framework.Test;
+import jesting.framework.annotations.Test;
 import jesting.framework.listener.TestProgressListener;
 import jesting.framework.runner.TestRunner;
 import jesting.framework.result.TestResult;

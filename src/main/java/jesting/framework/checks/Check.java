@@ -1,4 +1,4 @@
-package jesting.framework;
+package jesting.framework.checks;
 
 public class Check {
 

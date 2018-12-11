@@ -2,7 +2,7 @@ package jesting.framework.runner;
 
 import java.util.concurrent.Callable;
 
-import jesting.framework.TestContext;
+import jesting.framework.context.TestContext;
 import jesting.framework.result.TestContextResult;
 
 /**

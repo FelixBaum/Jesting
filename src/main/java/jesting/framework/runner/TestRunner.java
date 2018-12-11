@@ -12,8 +12,8 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-import jesting.framework.Test;
-import jesting.framework.TestContext;
+import jesting.framework.annotations.Test;
+import jesting.framework.context.TestContext;
 import jesting.framework.result.TestContextResult;
 import jesting.framework.result.TestContextResultType;
 import jesting.framework.result.TestResult;
