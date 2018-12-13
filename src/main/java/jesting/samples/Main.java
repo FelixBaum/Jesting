@@ -14,7 +14,7 @@ public class Main implements TestProgressListener {
         Main main = new Main();
         
         TestRunner runner = new TestRunner();
-        runner.addTest(Main.class);
+        runner.addTests(Main.class);
         runner.addProgressListener(main);
         runner.run();
     }

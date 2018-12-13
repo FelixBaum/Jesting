@@ -4,6 +4,10 @@
 
 A Java Testing Framework for running lightweight Java unit tests.
 
+## Install
+
+Download the [latest Release](https://github.com/FelixBaum/Jesting/releases/tag/v1.0) and import the `*.jar` into your project.
+
 ## Basic Usage
 
 Declare classes which hold your testmethods. Methods to test should be annotated with the `@Test`-annotation which is part of the framework.

@@ -42,32 +42,37 @@ public class TestRunner {
 
     /// public methods
 
-
     /**
-     * Adds a testclass to the test queue. 
-     * 
-     * @param type the class which holds the tests
+     * Adds testclasses to the test queue.
+     * @param types the classes which hold the tests.
      */
-    public void addTest(Class<?> type) {
-        if (type == null)
+    public void addTests(Class<?>... types) {
+        if (types == null)
+            return;
+        if (types.length < 1)
             return;
 
-        List<Method> methods = getMethodsAnnotatedWith(type, Test.class);
+        for (Class<?> type : types) {
+            if (hasClassBeenAdded(type))
+                continue;
 
-        if (methods == null || methods.size() == 0)
-            return;
+            List<Method> methods = getMethodsAnnotatedWith(type, Test.class);
 
-        for (Method method : methods) {
-            TestContext testContext = new TestContext(type, method);
+            if (methods == null || methods.size() == 0)
+                return;
 
-            Test annotation = method.getAnnotation(Test.class);
-            if (annotation.expected() != null) {
-                testContext.setExpected(annotation.expected());
+            for (Method method : methods) {
+                TestContext testContext = new TestContext(type, method);
+
+                Test annotation = method.getAnnotation(Test.class);
+                if (annotation.expected() != null) {
+                    testContext.setExpected(annotation.expected());
+                }
+                
+                testContext.setTimeout(annotation.timeout());
+
+                this.tests.add(testContext);
             }
-            
-            testContext.setTimeout(annotation.timeout());
-
-            this.tests.add(testContext);
         }
     }
 
@@ -174,6 +179,23 @@ public class TestRunner {
         }
 
         return methods;
+    }
+
+    /**
+     * Checks, if the test class has been added already.
+     * 
+     * @param type the type to check.
+     */
+    private boolean hasClassBeenAdded(Class<?> type) {
+        if (tests == null || tests.size() == 0)
+            return false;
+
+        for (TestContext test : tests) {
+            if (test.getType() == type)
+                return true;
+        }
+
+        return false;
     }
 
     /**
